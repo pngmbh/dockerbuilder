@@ -30,7 +30,7 @@ RUN buildDeps='gcc git libffi-dev libssl-dev python3-dev python3-pip python3-whe
         /usr/lib/x86_64-linux-gnu/gconv/EBC* && \
     bash -c "mkdir -p /usr/share/man/man{1..8}"
 
-ADD https://storage.googleapis.com/object-storage-cli/bb8e054/objstorage-bb8e054-linux-amd64 /bin/objstorage
+COPY --from=quay.io/pngmbh/object-storage-cli:latest /objstorage-latest-linux-amd64 /bin/objstorage
 RUN chmod +x /bin/objstorage
 
 COPY . /
