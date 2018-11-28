@@ -8,6 +8,7 @@ import requests
 import subprocess
 
 DEBUG = os.environ.get('DEIS_DEBUG') in ('true', '1')
+DEBUG = True
 registryLocation = os.getenv('DEIS_REGISTRY_LOCATION', 'on-cluster')
 
 
@@ -43,16 +44,21 @@ def log(msg):
 def get_registry_name():
     hostname = os.getenv('DEIS_REGISTRY_HOSTNAME', "")
     hostname = hostname.replace("https://", "").replace("http://", "")
+    log(hostname)
     if registryLocation == "off-cluster":
+        log("off-cluster registry")
         organization = os.getenv('DEIS_REGISTRY_ORGANIZATION')
         regName = ""
+        log(organization)
         # empty hostname means dockerhub and hence no need to prefix the image
         if hostname != "":
             regName = hostname + "/"
+        log(regName)
         # Registries may have organizations/namespaces under them which needs to
         # be prefixed to the image
         if organization != "":
             regName = regName + organization
+        log(regName)
         return regName
     elif registryLocation == "ecr":
         return hostname
